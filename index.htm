@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanshri Travels - Explore Maharashtra | Bus & Tours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23667eea;stop-opacity:1" /><stop offset="100%" style="stop-color:%23764ba2;stop-opacity:1" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad)"/></svg>');
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 150px 2rem 100px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #ee5a52;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #667eea;
+        }
+
+        .services {
+            background-color: #f8f9fa;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .destinations {
+            background-color: white;
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .destination-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .destination-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 0;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .destination-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .destination-details h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .destination-details p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .attractions-list {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .attractions-list li {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #eee;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-prev:hover {
+            background: #ccc;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-close {
+            background: #ff6b6b;
+            color: white;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-close:hover {
+            background: #ee5a52;
+        }
+
+        .slide-counter {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .destination-card h3 {
+            padding: 1.5rem 1rem 0.5rem;
+            color: #333;
+        }
+
+        .destination-card p {
+            padding: 0 1rem 1rem;
+            color: #666;
+        }
+
+        .testimonials {
+            background-color: #f8f9fa;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stars {
+            color: #ffc107;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial p {
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .author {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .booking-section {
+            background-color: white;
+        }
+
+        .booking-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.9rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .booking-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .booking-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            color: #333;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo" style="display: flex; align-items: center; gap: 0.5rem;"><span style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); padding: 0.3rem 0.6rem; border-radius: 50%; color: white; font-weight: bold; font-size: 1.2rem;">🚌</span>Tanshri Travels</a>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#booking">Book Now</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>🌄 Explore Maharashtra with Tanshri Travels</h1>
+        <p>Experience the beauty of the Sahyadris, historic forts, beaches, and vibrant culture of Maharashtra</p>
+        <a href="#destinations" class="btn">Book Your Bus Tour Now</a>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>🌍 Custom Tours</h3>
+                    <p>Personalized itineraries tailored to your preferences and travel style. Let us create your perfect adventure.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🏨 Accommodations</h3>
+                    <p>Access to premium hotels, resorts, and unique stays in destinations around the world.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🚌 Bus Tours</h3>
+                    <p>Comfortable bus journeys across Maharashtra. Explore scenic routes with professional drivers and guides.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🚌 Bus Booking</h3>
+                    <p>Easy online booking for luxury and comfort buses. AC and non-AC options available.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🛡️ Travel Insurance</h3>
+                    <p>Comprehensive coverage for peace of mind during your travels.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🎒 Group Tours</h3>
+                    <p>Join exciting group adventures and meet fellow travelers from around the world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="destinations" id="destinations">
+        <div class="container">
+            <h2 class="section-title">Popular Destinations</h2>
+            <div class="destination-grid">
+                <div class="destination-card" onclick="openDestinationModal(0)">
+                    <div style="background: linear-gradient(135deg, #8B4513 0%, #D2B48C 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 3rem;">🏰</div>
+                    <h3>Aurangabad - Ajanta & Ellora</h3>
+                    <p>Explore UNESCO World Heritage Buddhist, Hindu, and Jain caves. Marvel at ancient architecture and sculptures.</p>
+                </div>
+                <div class="destination-card" onclick="openDestinationModal(1)">
+                    <div style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E72 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 3rem;">⛱️</div>
+                    <h3>Alibag - Beach Paradise</h3>
+                    <p>Relax on pristine beaches near Mumbai. Perfect for weekend getaways with sandy shores and sea breeze.</p>
+                </div>
+                <div class="destination-card" onclick="openDestinationModal(2)">
+                    <div style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 3rem;">🏔️</div>
+                    <h3>Lonavala - Hill Station</h3>
+                    <p>Scenic mountain landscapes, adventure activities, and the famous Khandala hill station nearby.</p>
+                </div>
+                <div class="destination-card" onclick="openDestinationModal(3)">
+                    <div style="background: linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 3rem;">🕌</div>
+                    <h3>Pune - Cultural Hub</h3>
+                    <p>Historical temples, Aga Khan Palace, and vibrant street food scene. Explore the Oxford of the East.</p>
+                </div>
+                <div class="destination-card" onclick="openDestinationModal(4)">
+                    <div style="background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 3rem;">🏔️</div>
+                    <h3>Mahabaleshwar - Strawberry City</h3>
+                    <p>Misty hills, strawberry plantations, and scenic viewpoints. Perfect for nature lovers and adventure seekers.</p>
+                </div>
+                <div class="destination-card" onclick="openDestinationModal(5)">
+                    <div style="background: linear-gradient(135deg, #2196F3 0%, #64B5F6 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 3rem;">🏖️</div>
+                    <h3>Goa Border - Beaches & Coconut</h3>
+                    <p>Golden beaches, coconut groves, and water sports. Experience the coastal beauty of South Maharashtra.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking-section" id="booking">
+        <div class="container">
+            <h2 class="section-title">🎫 Book Your Bus Ticket Now</h2>
+            <div class="booking-container">
+                <form class="booking-form" onsubmit="handleBooking(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="from">Departure City *</label>
+                        <select id="from" name="from" required>
+                            <option value="">Select City</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Aurangabad">Aurangabad</option>
+                            <option value="Nashik">Nashik</option>
+                            <option value="Nagpur">Nagpur</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="to">Destination City *</label>
+                        <select id="to" name="to" required>
+                            <option value="">Select City</option>
+                            <option value="Aurangabad">Aurangabad - Ajanta & Ellora</option>
+                            <option value="Alibag">Alibag - Beach</option>
+                            <option value="Lonavala">Lonavala - Hill Station</option>
+                            <option value="Pune">Pune - Cultural Hub</option>
+                            <option value="Mahabaleshwar">Mahabaleshwar - Strawberry City</option>
+                            <option value="Goa">Goa Border - Beaches</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Journey Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passengers">Number of Passengers *</label>
+                        <input type="number" id="passengers" name="passengers" min="1" max="50" placeholder="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bustype">Bus Type *</label>
+                        <select id="bustype" name="bustype" required>
+                            <option value="">Select Bus Type</option>
+                            <option value="AC Sleeper">AC Sleeper - ₹1500/seat</option>
+                            <option value="AC Semi-Sleeper">AC Semi-Sleeper - ₹1200/seat</option>
+                            <option value="Non-AC">Non-AC - ₹800/seat</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group full">
+                        <label for="notes">Special Requests (Optional)</label>
+                        <input type="text" id="notes" name="notes" placeholder="E.g., Wheelchair access, specific seating">
+                    </div>
+                    <button type="submit" class="booking-btn">✓ Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p>"Tanshri Travels provided an amazing bus tour through Maharashtra. Comfortable buses and knowledgeable guides!"</p>
+                    <div class="author">- Rajesh Patil</div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p>"Best experience visiting Ajanta & Ellora caves. The bus journey was smooth and the service was excellent!"</p>
+                    <div class="author">- Priya Sharma</div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">★★★★★</div>
+                    <p>"Tanshri Travels made our family trip to Lonavala unforgettable. Highly recommend their bus tours!"</p>
+                    <div class="author">- Amit Deshmukh</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destination Detail Modal -->
+    <div class="modal" id="destinationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Destination</h2>
+            </div>
+            <div class="modal-body">
+                <div class="destination-details">
+                    <p id="modalDescription">Loading details...</p>
+                </div>
+                
+                <div class="destination-details">
+                    <h3>🎯 Key Attractions</h3>
+                    <ul class="attractions-list" id="attractionsList">
+                    </ul>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                    <div class="destination-details">
+                        <h3>⏱️ Duration</h3>
+                        <p id="duration">-</p>
+                    </div>
+                    <div class="destination-details">
+                        <h3>🌦️ Best Time</h3>
+                        <p id="bestTime">-</p>
+                    </div>
+                </div>
+
+                <div class="destination-details">
+                    <h3>💰 Starting Price</h3>
+                    <p id="price" style="font-size: 1.3rem; color: #667eea; font-weight: bold;">-</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="modal-btn btn-prev" id="prevBtn" onclick="goToPrevious()">← Previous</button>
+                <span class="slide-counter" id="slideCounter">1 / 6</span>
+                <button class="modal-btn btn-next" id="nextBtn" onclick="goToNext()">Next Destination →</button>
+                <button class="modal-btn btn-close" onclick="closeDestinationModal()">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📍 Address</h3>
+                    <p>123 Travel Street<br>Adventure City, AC 12345</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📞 Phone</h3>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>info@tanshritravels.com</p>
+                </div>
+            </div>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Tanshri Travels. All rights reserved. | Your journey starts here.</p>
+    </footer>
+
+    <script>
+        // Destination details data
+        const destinations = [
+            {
+                name: "Aurangabad - Ajanta & Ellora",
+                emoji: "🏰",
+                description: "Explore the UNESCO World Heritage sites with ancient Buddhist, Hindu, and Jain caves carved into rock cliffs. A journey through 2000 years of architectural history.",
+                attractions: [
+                    "Ajanta Caves - 30 rock-cut Buddhist caves",
+                    "Ellora Caves - 34 Buddhist, Hindu, and Jain temples",
+                    "Kailash Temple - World's largest monolith temple",
+                    "Grishneshwar Temple - Sacred pilgrimage site",
+                    "Bibi Ka Maqbara - Aurangabad's monument"
+                ],
+                duration: "3-4 Days",
+                bestTime: "October to March",
+                price: "₹3500-5000 per person"
+            },
+            {
+                name: "Alibag - Beach Paradise",
+                emoji: "⛱️",
+                description: "Escape to serene beaches near Mumbai with golden sand, calm waters, and coastal charm. Perfect for relaxation and water activities.",
+                attractions: [
+                    "Alibag Beach - Pristine sandy shores",
+                    "Kolaba Fort - Historic seaside fort",
+                    "Phare Beach - Water sports hub",
+                    "Revdanda Beach - Historic coastal town",
+                    "Sunsets by the Arabian Sea"
+                ],
+                duration: "1-2 Days",
+                bestTime: "November to February",
+                price: "₹1500-2500 per person"
+            },
+            {
+                name: "Lonavala - Hill Station",
+                emoji: "🏔️",
+                description: "Discover scenic mountain landscapes with lush greenery, waterfalls, and adventure activities. A haven for nature lovers and thrill seekers.",
+                attractions: [
+                    "Bhushi Dam - Scenic water dam",
+                    "Tiger's Leap - Panoramic viewpoint",
+                    "Korigad Fort - Historic hilltop fort",
+                    "Khandala Hill Station - Nearby adventure hub",
+                    "Monsoon mist and misty valleys"
+                ],
+                duration: "2-3 Days",
+                bestTime: "June to September (Monsoon)",
+                price: "₹2000-3500 per person"
+            },
+            {
+                name: "Pune - Cultural Hub",
+                emoji: "🕌",
+                description: "Experience the cultural heart of Maharashtra with historic temples, palaces, and vibrant street food. Known as the Oxford of the East.",
+                attractions: [
+                    "Aga Khan Palace - Historic monument",
+                    "Shankracharya Temple - Ancient hilltop temple",
+                    "Pataleshwar Cave Temple - Rock-cut sanctuary",
+                    "Osho Ashram - Spiritual center",
+                    "Street food markets & nightlife"
+                ],
+                duration: "2-3 Days",
+                bestTime: "October to March",
+                price: "₹2500-4000 per person"
+            },
+            {
+                name: "Mahabaleshwar - Strawberry City",
+                emoji: "🏔️",
+                description: "Enjoy misty hills, strawberry farms, and scenic viewpoints. A romantic getaway with cool mountain breeze and beautiful landscapes.",
+                attractions: [
+                    "Mahabaleshwar Strawberry Farms",
+                    "Venna Lake - Scenic hill lake",
+                    "Pratapgad Fort - Historic mountain fort",
+                    "Arthington Point - Scenic overlook",
+                    "Panchgani - Nearby hill station"
+                ],
+                duration: "2-3 Days",
+                bestTime: "March to May, September to November",
+                price: "₹2500-4000 per person"
+            },
+            {
+                name: "Goa Border - Beaches & Coconut",
+                emoji: "🏖️",
+                description: "Experience golden beaches, coconut groves, and water sports. Explore the southern coastal beauty of Maharashtra with Goan vibes.",
+                attractions: [
+                    "Sawantwadi Beach - Golden sandy beach",
+                    "Sindhudurg Fort - Historic sea fort",
+                    "Coconut plantations & spice gardens",
+                    "Water sports - Jet skiing, parasailing",
+                    "Seafood dining & beach shacks"
+                ],
+                duration: "2-3 Days",
+                bestTime: "October to March",
+                price: "₹2500-4000 per person"
+            }
+        ];
+
+        let currentDestination = 0;
+
+        function openDestinationModal(index) {
+            currentDestination = index;
+            updateModalContent();
+            document.getElementById('destinationModal').classList.add('active');
+        }
+
+        function closeDestinationModal() {
+            document.getElementById('destinationModal').classList.remove('active');
+        }
+
+        function updateModalContent() {
+            const dest = destinations[currentDestination];
+            document.getElementById('modalTitle').textContent = dest.emoji + " " + dest.name;
+            document.getElementById('modalDescription').textContent = dest.description;
+            
+            let attractionsHTML = '';
+            dest.attractions.forEach(attr => {
+                attractionsHTML += `<li>✓ ${attr}</li>`;
+            });
+            document.getElementById('attractionsList').innerHTML = attractionsHTML;
+            
+            document.getElementById('duration').textContent = dest.duration;
+            document.getElementById('bestTime').textContent = dest.bestTime;
+            document.getElementById('price').textContent = dest.price;
+            
+            document.getElementById('slideCounter').textContent = `${currentDestination + 1} / ${destinations.length}`;
+            
+            // Update button states
+            document.getElementById('prevBtn').style.display = currentDestination === 0 ? 'none' : 'block';
+            document.getElementById('nextBtn').textContent = currentDestination === destinations.length - 1 ? '✓ Book Now' : 'Next Destination →';
+        }
+
+        function goToPrevious() {
+            if (currentDestination > 0) {
+                currentDestination--;
+                updateModalContent();
+            }
+        }
+
+        function goToNext() {
+            if (currentDestination < destinations.length - 1) {
+                currentDestination++;
+                updateModalContent();
+            } else {
+                // Book now
+                closeDestinationModal();
+                document.querySelector('#booking').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('destinationModal');
+            if (event.target === modal) {
+                closeDestinationModal();
+            }
+        }
+
+        function handleBooking(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            const date = document.getElementById('date').value;
+            const passengers = document.getElementById('passengers').value;
+            const bustype = document.getElementById('bustype').value;
+            const email = document.getElementById('email').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Create booking summary
+            const bookingSummary = `
+Booking Confirmation - Tanshri Travels
+
+Passenger Name: ${name}
+Phone: ${phone}
+Email: ${email}
+
+Journey Details:
+From: ${from}
+To: ${to}
+Date: ${date}
+Number of Passengers: ${passengers}
+Bus Type: ${bustype}
+Special Requests: ${notes || 'None'}
+
+Your booking has been received! Our team will contact you shortly to confirm payment and provide further details.
+
+Thank you for choosing Tanshri Travels! 🚌
+            `;
+            
+            // Show confirmation alert
+            alert(bookingSummary);
+            
+            // Log booking data (in real scenario, send to server)
+            console.log('Booking Data:', {name, phone, from, to, date, passengers, bustype, email, notes});
+            
+            // Reset form
+            document.querySelector('.booking-form').reset();
+        }
+    </script>
+</body>
+</html>
